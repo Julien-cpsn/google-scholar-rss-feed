@@ -76,7 +76,7 @@ async fn send_rss(request: Request<Incoming>) -> Result<Response<Full<Bytes>>, E
         let channel = generate_channel_if_needed(String::from(username)).await;
 
         response = Response::builder()
-            .header("Content-Type", "text/html")
+            .header("Content-Type", "text/xml; charset=utf-8")
             .header("Access-Control-Allow-Origin", "*")
             .status(StatusCode::OK)
             .body(Full::new(Bytes::from(channel.to_string())))?;
