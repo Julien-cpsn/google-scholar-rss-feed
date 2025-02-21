@@ -115,7 +115,7 @@ async fn update_rss_channel(username: &str, channel: &mut Channel) {
         cluster_id: None,
         lang: None,
         lang_limit: None,
-        limit: None,
+        limit: Some(100),
         offset: None,
         adult_filtering: None,
         include_similar_results: None,
@@ -134,13 +134,14 @@ async fn update_rss_channel(username: &str, channel: &mut Channel) {
         let item = ItemBuilder::default()
             .title(result.title)
             .author(result.author)
-            .description(result.abs)
+            .description(result.conference)
             .link(result.link)
             .source(Source {
                 url: String::from(&result.domain),
                 title: Some(String::from(&result.domain)),
             })
             .pub_date(result.year)
+            .content(result.abs)
             .build();
 
         items.push(item);
