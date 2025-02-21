@@ -8,7 +8,7 @@ use hyper::{Request, Response, StatusCode};
 use hyper_util::rt::TokioIo;
 use lazy_static::lazy_static;
 use parking_lot::RwLock;
-use rss::{Channel, ChannelBuilder, ItemBuilder};
+use rss::{Channel, ChannelBuilder, ItemBuilder, Source};
 use std::collections::HashMap;
 use std::env;
 use std::net::SocketAddr;
@@ -29,8 +29,10 @@ async fn main() {
     let addr = SocketAddr::from_str(&address).unwrap();
 
     // We create a TcpListener and bind it to 127.0.0.1:3000
+    println!("Listening on {address}...");
     let listener = TcpListener::bind(addr).await.unwrap();
 
+    println!("Server started");
     let mut last_update = Instant::now();
     loop {
         // Clear every day to avoid overflow
@@ -89,7 +91,7 @@ async fn generate_channel_if_needed(username: String) -> Channel {
     if !RSS_CHANNELS.read().contains_key(&username) {
         let mut new_channel = ChannelBuilder::default()
             .title(format!("{} scientific publications", username))
-            .description(format!("An RSS feed for {}.", username))
+            .description(format!("An RSS feed for {} scientific publications. Parsed from Google Scholar.", username))
             .build();
 
         update_rss_channel(&username, &mut new_channel).await;
@@ -134,6 +136,11 @@ async fn update_rss_channel(username: &str, channel: &mut Channel) {
             .author(result.author)
             .description(result.abs)
             .link(result.link)
+            .source(Source {
+                url: String::from(&result.domain),
+                title: Some(String::from(&result.domain)),
+            })
+            .pub_date(result.year)
             .build();
 
         items.push(item);
