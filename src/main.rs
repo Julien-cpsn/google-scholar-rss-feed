@@ -131,13 +131,18 @@ async fn update_rss_channel(username: &str, channel: &mut Channel) {
     let mut items = vec![];
 
     for result in results {
+        let source_url = match result.domain.contains(".") {
+            true => result.domain.clone(),
+            false => format!("{}.com", result.domain)
+        };
+        
         let item = ItemBuilder::default()
             .title(result.title)
             .author(result.author)
             .description(result.conference)
             .link(result.link)
             .source(Source {
-                url: String::from(&result.domain),
+                url: source_url,
                 title: Some(String::from(&result.domain)),
             })
             .pub_date(result.year)
