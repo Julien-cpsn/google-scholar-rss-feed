@@ -8,13 +8,14 @@ use hyper::{Request, Response, StatusCode};
 use hyper_util::rt::TokioIo;
 use lazy_static::lazy_static;
 use parking_lot::RwLock;
-use rss::{Channel, ChannelBuilder, ItemBuilder, Source};
+use rss::{Category, Channel, ChannelBuilder, ItemBuilder, Source, TextInput};
 use std::collections::HashMap;
 use std::env;
 use std::net::SocketAddr;
 use std::str::FromStr;
 use std::sync::Arc;
 use std::time::Duration;
+use chrono::Utc;
 use tokio::net::TcpListener;
 use tokio::time::Instant;
 
@@ -92,6 +93,18 @@ async fn generate_channel_if_needed(username: String) -> Channel {
         let mut new_channel = ChannelBuilder::default()
             .title(format!("{} scientific publications", username))
             .description(format!("An RSS feed for {} scientific publications. Parsed from Google Scholar.", username))
+            .language(String::from("en-US"))
+            .generator(String::from("google-scholar-rss-feed"))
+            .copyright(String::from("© Google Scholar"))
+            .ttl(String::from("60"))
+            .docs(String::from("https://cyber.harvard.edu/rss/rss.html"))
+            .text_input(TextInput {
+                title: String::from("Google Scholar"),
+                description: String::from("Search Google Scholar"),
+                name: String::from("q"),
+                link: String::from("https://scholar.google.com/scholar"),
+            })
+            .categories(vec![Category::from("Scientific Research")])
             .build();
 
         update_rss_channel(&username, &mut new_channel).await;
@@ -154,4 +167,8 @@ async fn update_rss_channel(username: &str, channel: &mut Channel) {
 
 
     channel.set_items(items);
+
+    let now = Utc::now().to_rfc2822();
+    channel.set_pub_date(now.clone());
+    channel.set_last_build_date(now);
 }
