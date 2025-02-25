@@ -414,7 +414,7 @@ dependencies = [
 
 [[package]]
 name = "google-scholar-rss-feed"
-version = "0.1.2"
+version = "0.1.3"
 dependencies = [
  "chrono",
  "google-scholar-query",

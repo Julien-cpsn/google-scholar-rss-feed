@@ -145,8 +145,8 @@ async fn update_rss_channel(username: &str, channel: &mut Channel) {
 
     for result in results {
         let source_url = match result.domain.contains(".") {
-            true => result.domain.clone(),
-            false => format!("{}.com", result.domain)
+            true => format!("https://{}", result.domain.clone()),
+            false => format!("https://{}.com", result.domain)
         };
         
         let item = ItemBuilder::default()
