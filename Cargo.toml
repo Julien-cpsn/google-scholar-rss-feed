@@ -6,7 +6,7 @@ documentation = "https://github.com/Julien-cpsn/google-scholar-rss-feed"
 authors = ["Julien-cpsn"]
 license = "MIT"
 categories = ["science"]
-version = "0.1.4"
+version = "0.1.5"
 edition = "2021"
 
 [dependencies]

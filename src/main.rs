@@ -157,11 +157,16 @@ async fn update_rss_channel(username: &str, channel: &mut Channel) {
                 mime_type: String::from("application/pdf"),
             })
         };
+        
+        let description = match result.conference {
+            None => format!("Cited {} times", result.citations),
+            Some(conference) => format!("{conference} - Cited {} times", result.citations)
+        };
 
         let item = ItemBuilder::default()
             .title(result.title)
             .author(result.author)
-            .description(result.conference)
+            .description(description)
             .link(result.link)
             .source(Source {
                 url: source_url,
