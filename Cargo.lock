@@ -400,9 +400,9 @@ checksum = "07e28edb80900c19c28f1072f2e8aeca7fa06b23cd4169cefe1af5aa3260783f"
 
 [[package]]
 name = "google-scholar-query"
-version = "0.1.5"
+version = "0.1.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "92b81b30ac437a6dac3df2e211d874e0cfeb8c8a5904ac2c5c25504fa112608e"
+checksum = "9803d7015c5b1e8b2d6611f609dba65cad22d81ac6dc9c5444ff3640e140081f"
 dependencies = [
  "async-trait",
  "regex",
@@ -414,7 +414,7 @@ dependencies = [
 
 [[package]]
 name = "google-scholar-rss-feed"
-version = "0.1.5"
+version = "0.1.6"
 dependencies = [
  "chrono",
  "google-scholar-query",
@@ -1350,9 +1350,9 @@ checksum = "94143f37725109f92c262ed2cf5e59bce7498c01bcc1502d7b9afe439a4e9f49"
 
 [[package]]
 name = "scraper"
-version = "0.22.0"
+version = "0.23.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "cc3d051b884f40e309de6c149734eab57aa8cc1347992710dc80bcc1c2194c15"
+checksum = "527e65d9d888567588db4c12da1087598d0f6f8b346cc2c5abc91f05fc2dffe2"
 dependencies = [
  "cssparser",
  "ego-tree",

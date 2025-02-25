@@ -158,9 +158,11 @@ async fn update_rss_channel(username: &str, channel: &mut Channel) {
             })
         };
         
-        let description = match result.conference {
-            None => format!("Cited {} times", result.citations),
-            Some(conference) => format!("{conference} - Cited {} times", result.citations)
+        let description = match (result.conference, result.citations) {
+            (None, None) => None,
+            (Some(conference), None) => Some(conference),
+            (None, Some(citations)) => Some(format!("Cited {citations} times")),
+            (Some(conference), Some(citations)) => Some(format!("{conference} - Cited {citations} times"))
         };
 
         let item = ItemBuilder::default()
