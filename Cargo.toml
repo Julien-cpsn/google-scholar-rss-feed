@@ -1,5 +1,11 @@
 [package]
 name = "google-scholar-rss-feed"
+description = "Generates an RSS feed from a user's scientific publications, parses data from Google Scholar."
+repository = "https://github.com/Julien-cpsn/google-scholar-rss-feed"
+documentation = "https://github.com/Julien-cpsn/google-scholar-rss-feed"
+authors = ["Julien-cpsn"]
+license = "MIT"
+categories = ["science"]
 version = "0.1.2"
 edition = "2021"
 
