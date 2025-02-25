@@ -8,7 +8,7 @@ use hyper::{Request, Response, StatusCode};
 use hyper_util::rt::TokioIo;
 use lazy_static::lazy_static;
 use parking_lot::RwLock;
-use rss::{Category, Channel, ChannelBuilder, ItemBuilder, Source, TextInput};
+use rss::{Category, Channel, ChannelBuilder, Enclosure, ItemBuilder, Source, TextInput};
 use std::collections::HashMap;
 use std::env;
 use std::net::SocketAddr;
@@ -148,7 +148,16 @@ async fn update_rss_channel(username: &str, channel: &mut Channel) {
             true => format!("https://{}", result.domain.clone()),
             false => format!("https://{}.com", result.domain)
         };
-        
+
+        let enclosure = match result.pdf_link {
+            None => None,
+            Some(pdf_link) => Some(Enclosure {
+                url: pdf_link,
+                length: String::from(""),
+                mime_type: String::from("application/pdf"),
+            })
+        };
+
         let item = ItemBuilder::default()
             .title(result.title)
             .author(result.author)
@@ -159,6 +168,7 @@ async fn update_rss_channel(username: &str, channel: &mut Channel) {
                 title: Some(String::from(&result.domain)),
             })
             .pub_date(result.year)
+            .enclosure(enclosure)
             .content(result.abs)
             .build();
 
